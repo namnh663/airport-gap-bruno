@@ -4,78 +4,6 @@
   "items": [
     {
       "type": "http",
-      "name": "Returns all airports",
-      "seq": 2,
-      "request": {
-        "url": "{{BaseURL}}/airports",
-        "method": "GET",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [
-          {
-            "name": "res.status",
-            "value": "eq 200",
-            "enabled": true,
-            "uid": "D0xr7FG86arongG818rJz"
-          }
-        ],
-        "tests": "test(\"should be 30 airports per page\", function() {\n  const data = res.getBody().data;\n  expect(data.length).to.equal(30);\n});\n\nbru.setEnvVar('id',res.getBody().data[0].id);",
-        "auth": {
-          "mode": "none"
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "Returns the airport specified by the ID",
-      "seq": 3,
-      "request": {
-        "url": "https://airportgap.com/api/airports/{{id}}",
-        "method": "GET",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [
-          {
-            "name": "res.body.data.id",
-            "value": "eq GKA",
-            "enabled": true,
-            "uid": "hoi5xlIvwKUqVhk42RESr"
-          },
-          {
-            "name": "res.body.data.type",
-            "value": "eq airport",
-            "enabled": true,
-            "uid": "gAPsItalKMZJbVtfDj1py"
-          },
-          {
-            "name": "res.status",
-            "value": "eq 200",
-            "enabled": true,
-            "uid": "AlLFEmZeTrMnBiaEGDNff"
-          }
-        ],
-        "tests": "",
-        "auth": {
-          "mode": "none"
-        }
-      }
-    },
-    {
-      "type": "http",
       "name": "Calculates the distance between two airports",
       "seq": 4,
       "request": {
@@ -108,22 +36,88 @@
             "name": "res.body.data.id",
             "value": "eq GKA-MAG",
             "enabled": true,
-            "uid": "myj34RZU6qjF0rW5UjnDU"
+            "uid": "gNrIoJWgoTvX8ly5obfKY"
           },
           {
             "name": "res.body.data.type",
             "value": "eq airport_distance",
             "enabled": true,
-            "uid": "ioL9cxQVkQU69jNPpbYlX"
+            "uid": "gdpJJdUZppTH0OjLDaCLA"
           },
           {
             "name": "res.status",
             "value": "eq 200",
             "enabled": true,
-            "uid": "amsa5pQ6wTqQlz82x8obG"
+            "uid": "KUAVLd2XathudFCT2uHaP"
           }
         ],
         "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Returns all airports",
+      "seq": 2,
+      "request": {
+        "url": "{{BaseURL}}/airports",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "JdrF1mo7WatCUFOiyg9EN"
+          }
+        ],
+        "tests": "test(\"should be 30 airports per page\", function() {\n  const data = res.getBody().data;\n  expect(data.length).to.equal(30);\n});\n\nbru.setEnvVar('id',res.getBody().data[0].id);",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Returns all the favorite airports saved to Airport Gap account",
+      "seq": 6,
+      "request": {
+        "url": "https://airportgap.com/api/favorites",
+        "method": "GET",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Token {{token}}",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "NsqYzBoxJ8oMgMJPiXjUE"
+          }
+        ],
+        "tests": "bru.setEnvVar('favorite_id',res.getBody().data[0].id);",
         "auth": {
           "mode": "none"
         }
@@ -163,7 +157,7 @@
             "name": "res.status",
             "value": "eq 200",
             "enabled": true,
-            "uid": "kp6S2eCOcnJY9arXKJRRt"
+            "uid": "uq5eF9n0GdR6qmSjzhMM5"
           }
         ],
         "tests": "bru.setEnvVar('token',res.getBody().token);",
@@ -174,10 +168,52 @@
     },
     {
       "type": "http",
-      "name": "Returns all the favorite airports saved to Airport Gap account",
-      "seq": 6,
+      "name": "Returns the airport specified by the ID",
+      "seq": 3,
       "request": {
-        "url": "https://airportgap.com/api/favorites",
+        "url": "https://airportgap.com/api/airports/{{id}}",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.body.data.id",
+            "value": "eq GKA",
+            "enabled": true,
+            "uid": "vxM1II1jba64qw1K0rBdC"
+          },
+          {
+            "name": "res.body.data.type",
+            "value": "eq airport",
+            "enabled": true,
+            "uid": "hYzYfiY7lJHO4xwTAGXYi"
+          },
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "GFqo4QjoSe0ZPDE4AnuXq"
+          }
+        ],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Returns the favorite airport from Airport Gap account specified by the ID",
+      "seq": 7,
+      "request": {
+        "url": "https://airportgap.com/api/favorites/{{favorite_id}}",
         "method": "GET",
         "headers": [
           {
@@ -196,10 +232,16 @@
         "vars": {},
         "assertions": [
           {
+            "name": "res.body.data.id",
+            "value": "eq '16063'",
+            "enabled": true,
+            "uid": "YviL65Zgn6pUnJcdIrdaD"
+          },
+          {
             "name": "res.status",
             "value": "eq 200",
             "enabled": true,
-            "uid": "g6YgcQp4ZHAJYCta9j8iV"
+            "uid": "Mzgzh8mQ3Zj3pPXcKMH8O"
           }
         ],
         "tests": "",
@@ -207,9 +249,52 @@
           "mode": "none"
         }
       }
+    },
+    {
+      "type": "http",
+      "name": "Returns the API token - Wrong email",
+      "seq": 8,
+      "request": {
+        "url": "https://airportgap.com/api/tokens?email=brian@airportgap.com&password={{password}}",
+        "method": "POST",
+        "headers": [],
+        "params": [
+          {
+            "name": "email",
+            "value": "brian@airportgap.com",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "password",
+            "value": "{{password}}",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 401",
+            "enabled": true,
+            "uid": "VDQnr5QVKbHjnZpnzQqOE"
+          }
+        ],
+        "tests": "const response = res.getBody();\n\nif(response.errors && response.errors.length > 0) {\n  const errorDetail = response.errors[0].detail;\n  test(\"should not be authorized\", function() {\n    expect(errorDetail).to.eql(\"You are not authorized to perform the requested action.\");\n  });\n} else {\n  console.log('Response does not contain errors or errors array is empty');\n}\n\nbru.setEnvVar('token',res.getBody().token);",
+        "auth": {
+          "mode": "none"
+        }
+      }
     }
   ],
-  "activeEnvironmentUid": "ejKXxvhB5wXoQG9xI4Vbu",
+  "activeEnvironmentUid": "FXu4tB85sk5f6oPKjG9W0",
   "environments": [
     {
       "variables": [
@@ -246,6 +331,13 @@
           "value": "",
           "enabled": true,
           "secret": true,
+          "type": "text"
+        },
+        {
+          "name": "favorite_id",
+          "value": "16063",
+          "secret": false,
+          "enabled": true,
           "type": "text"
         }
       ],
