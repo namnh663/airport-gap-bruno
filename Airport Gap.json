@@ -1,0 +1,264 @@
+{
+  "name": "Airport Gap",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "Returns all airports",
+      "seq": 2,
+      "request": {
+        "url": "{{BaseURL}}/airports",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "D0xr7FG86arongG818rJz"
+          }
+        ],
+        "tests": "test(\"should be 30 airports per page\", function() {\n  const data = res.getBody().data;\n  expect(data.length).to.equal(30);\n});\n\nbru.setEnvVar('id',res.getBody().data[0].id);",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Returns the airport specified by the ID",
+      "seq": 3,
+      "request": {
+        "url": "https://airportgap.com/api/airports/{{id}}",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.body.data.id",
+            "value": "eq GKA",
+            "enabled": true,
+            "uid": "hoi5xlIvwKUqVhk42RESr"
+          },
+          {
+            "name": "res.body.data.type",
+            "value": "eq airport",
+            "enabled": true,
+            "uid": "gAPsItalKMZJbVtfDj1py"
+          },
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "AlLFEmZeTrMnBiaEGDNff"
+          }
+        ],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Calculates the distance between two airports",
+      "seq": 4,
+      "request": {
+        "url": "https://airportgap.com/api/airports/distance?from={{id}}&to=MAG",
+        "method": "POST",
+        "headers": [],
+        "params": [
+          {
+            "name": "from",
+            "value": "{{id}}",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "to",
+            "value": "MAG",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.body.data.id",
+            "value": "eq GKA-MAG",
+            "enabled": true,
+            "uid": "myj34RZU6qjF0rW5UjnDU"
+          },
+          {
+            "name": "res.body.data.type",
+            "value": "eq airport_distance",
+            "enabled": true,
+            "uid": "ioL9cxQVkQU69jNPpbYlX"
+          },
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "amsa5pQ6wTqQlz82x8obG"
+          }
+        ],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Returns the API token",
+      "seq": 5,
+      "request": {
+        "url": "https://airportgap.com/api/tokens?email={{email}}&password={{password}}",
+        "method": "POST",
+        "headers": [],
+        "params": [
+          {
+            "name": "email",
+            "value": "{{email}}",
+            "type": "query",
+            "enabled": true
+          },
+          {
+            "name": "password",
+            "value": "{{password}}",
+            "type": "query",
+            "enabled": true
+          }
+        ],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "kp6S2eCOcnJY9arXKJRRt"
+          }
+        ],
+        "tests": "bru.setEnvVar('token',res.getBody().token);",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Returns all the favorite airports saved to Airport Gap account",
+      "seq": 6,
+      "request": {
+        "url": "https://airportgap.com/api/favorites",
+        "method": "GET",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": "Token {{token}}",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [
+          {
+            "name": "res.status",
+            "value": "eq 200",
+            "enabled": true,
+            "uid": "g6YgcQp4ZHAJYCta9j8iV"
+          }
+        ],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    }
+  ],
+  "activeEnvironmentUid": "ejKXxvhB5wXoQG9xI4Vbu",
+  "environments": [
+    {
+      "variables": [
+        {
+          "name": "BaseURL",
+          "value": "https://airportgap.com/api",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "id",
+          "value": "GKA",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "email",
+          "value": "test@airportgap.com",
+          "enabled": true,
+          "secret": false,
+          "type": "text"
+        },
+        {
+          "name": "password",
+          "value": "",
+          "enabled": true,
+          "secret": true,
+          "type": "text"
+        },
+        {
+          "name": "token",
+          "value": "",
+          "enabled": true,
+          "secret": true,
+          "type": "text"
+        }
+      ],
+      "name": "Prod"
+    }
+  ],
+  "brunoConfig": {
+    "version": "1",
+    "name": "Airport Gap",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
+  }
+}
